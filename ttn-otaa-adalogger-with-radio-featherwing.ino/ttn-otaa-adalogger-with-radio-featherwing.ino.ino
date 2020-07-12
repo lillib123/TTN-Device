@@ -49,6 +49,20 @@
 # define FILLMEIN (#dont edit this, edit the lines that use FILLMEIN)
 #endif
 
+#define RFM95_CS  10   // "B"
+#define RFM95_RST 11   // "A"
+#define RFM95_IRQ  6   // "D" interrupt capable on the Feather M0 Adalogger.
+
+//TODO: is IRQ the same as DIO0? So should .dio[0] in the struct below be pin 6?
+
+// Pin mapping
+const lmic_pinmap lmic_pins = {
+    .nss = 10,
+    .rxtx = LMIC_UNUSED_PIN,
+    .rst = 11,
+    .dio = {6, 12, 13},
+};
+
 // This EUI must be in little-endian format, so least-significant-byte
 // first. When copying an EUI from ttnctl output, this means to reverse
 // the bytes. For TTN issued EUIs the last bytes should be 0xD5, 0xB3,
@@ -72,14 +86,6 @@ static osjob_t sendjob;
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
 const unsigned TX_INTERVAL = 60;
-
-// Pin mapping
-const lmic_pinmap lmic_pins = {
-    .nss = 6,
-    .rxtx = LMIC_UNUSED_PIN,
-    .rst = 5,
-    .dio = {2, 3, 4},
-};
 
 void printHex2(unsigned v) {
     v &= 0xff;
@@ -136,7 +142,7 @@ void onEvent (ev_t ev) {
             }
             // Disable link check validation (automatically enabled
             // during join, but because slow data rates change max TX
-	    // size, we don't use it in this example.
+      // size, we don't use it in this example.
             LMIC_setLinkCheckMode(0);
             break;
         /*
