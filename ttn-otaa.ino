@@ -51,7 +51,9 @@
 
 #define RFM95_CS  10   // "B"
 #define RFM95_RST 11   // "A"
-#define RFM95_IRQ  6   // "D" interrupt capable on the Feather M0 Adalogger
+#define RFM95_IRQ  6   // "D" interrupt capable on the Feather M0 Adalogger.
+
+//TODO: is IRQ the same as DIO0? So should .dio[0] in the struct below be pin 6?
 
 // Pin mapping
 const lmic_pinmap lmic_pins = {
